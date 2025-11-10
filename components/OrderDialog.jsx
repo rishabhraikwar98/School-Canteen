@@ -44,7 +44,9 @@ export default function OrderDialog({ presetStudent, presetSnack, onSuccess }) {
             presetSnack={presetSnack}
             onSuccess={
               () =>{
-                onSuccess()
+                if (onSuccess){
+                  onSuccess()
+                }
                 setOpen(false)
               }
             }
