@@ -4,19 +4,19 @@
       "id": "1",
       "name": "Samosa",
       "price": 15,
-      "ordersCount": 2
+      "ordersCount": 9
     },
     {
       "id": "2",
       "name": "Sandwich",
       "price": 35,
-      "ordersCount": 0
+      "ordersCount": 4
     },
     {
       "id": "3",
       "name": "Chips",
       "price": 20,
-      "ordersCount": 1
+      "ordersCount": 8
     },
     {
       "id": "4",
@@ -28,7 +28,7 @@
       "id": "5",
       "name": "Burger",
       "price": 50,
-      "ordersCount": 3
+      "ordersCount": 6
     },
     {
       "id": "6",
@@ -46,13 +46,13 @@
       "id": "8",
       "name": "Cold Coffee",
       "price": 45,
-      "ordersCount": 1
+      "ordersCount": 4
     },
     {
       "id": "9",
       "name": "Tea",
       "price": 10,
-      "ordersCount": 0
+      "ordersCount": 10
     }
   ],
   "students": [
@@ -60,31 +60,31 @@
       "id": "3cba",
       "name": "Test Student",
       "referralCode": "M2AKYD",
-      "totalSpent": 90
+      "totalSpent": 135
     },
     {
       "id": "727d",
       "name": "Ravi",
       "referralCode": "QGV5N1",
-      "totalSpent": 25
+      "totalSpent": 150
     },
     {
       "id": "f88c",
       "name": "Shreya",
       "referralCode": "98AI8F",
-      "totalSpent": 100
+      "totalSpent": 120
     },
     {
       "id": "c8d3",
       "name": "Karan",
       "referralCode": "SVOPII",
-      "totalSpent": 95
+      "totalSpent": 140
     },
     {
       "id": "61fb",
       "name": "Arun",
       "referralCode": "APTP1Y",
-      "totalSpent": 0
+      "totalSpent": 35
     },
     {
       "id": "7a50",
@@ -96,7 +96,19 @@
       "id": "9bd9",
       "name": "New Student",
       "referralCode": "0JU04N",
-      "totalSpent": 0
+      "totalSpent": 130
+    },
+    {
+      "id": "b51f",
+      "name": "Example",
+      "referralCode": "9TXUQW",
+      "totalSpent": 105
+    },
+    {
+      "id": "7432",
+      "name": "XYZ",
+      "referralCode": "G8LORU",
+      "totalSpent": 255
     }
   ],
   "orders": [
@@ -148,6 +160,146 @@
       "snackId": "4",
       "quantity": 1,
       "totalSpent": 25
+    },
+    {
+      "id": "8c55",
+      "studentId": "b51f",
+      "snackId": "5",
+      "quantity": 1,
+      "totalSpent": 50
+    },
+    {
+      "id": "b2e7",
+      "studentId": "b51f",
+      "snackId": "3",
+      "quantity": 2,
+      "totalSpent": 40
+    },
+    {
+      "id": "20ee",
+      "studentId": "7432",
+      "snackId": "9",
+      "quantity": 2,
+      "totalSpent": 20
+    },
+    {
+      "id": "d051",
+      "studentId": "f88c",
+      "snackId": "3",
+      "quantity": 1,
+      "totalSpent": 20
+    },
+    {
+      "id": "bc5f",
+      "studentId": "b51f",
+      "snackId": "1",
+      "quantity": 1,
+      "totalSpent": 15
+    },
+    {
+      "id": "fe04",
+      "studentId": "727d",
+      "snackId": "1",
+      "quantity": 5,
+      "totalSpent": 75
+    },
+    {
+      "id": "e483",
+      "studentId": "3cba",
+      "snackId": "9",
+      "quantity": 1,
+      "totalSpent": 10
+    },
+    {
+      "id": "b226",
+      "studentId": "7432",
+      "snackId": "2",
+      "quantity": 1,
+      "totalSpent": 35
+    },
+    {
+      "id": "b59c",
+      "studentId": "7432",
+      "snackId": "5",
+      "quantity": 2,
+      "totalSpent": 100
+    },
+    {
+      "id": "3c7c",
+      "studentId": "61fb",
+      "snackId": "2",
+      "quantity": 1,
+      "totalSpent": 35
+    },
+    {
+      "id": "7cd7",
+      "studentId": "61fb",
+      "snackId": "1",
+      "quantity": 1,
+      "totalSpent": 15
+    },
+    {
+      "id": "2aa7",
+      "studentId": "727d",
+      "snackId": "2",
+      "quantity": 1,
+      "totalSpent": 35
+    },
+    {
+      "id": "e31f",
+      "studentId": "9bd9",
+      "snackId": "3",
+      "quantity": 4,
+      "totalSpent": 80
+    },
+    {
+      "id": "0226",
+      "studentId": "9bd9",
+      "snackId": "9",
+      "quantity": 5,
+      "totalSpent": 50
+    },
+    {
+      "id": "275c",
+      "studentId": "c8d3",
+      "snackId": "2",
+      "quantity": 1,
+      "totalSpent": 35
+    },
+    {
+      "id": "f539",
+      "studentId": "c8d3",
+      "snackId": "9",
+      "quantity": 1,
+      "totalSpent": 10
+    },
+    {
+      "id": "bf9e",
+      "studentId": "727d",
+      "snackId": "1",
+      "quantity": 1,
+      "totalSpent": 15
+    },
+    {
+      "id": "c5d9",
+      "studentId": "3cba",
+      "snackId": "8",
+      "quantity": 1,
+      "totalSpent": 45
+    },
+    {
+      "id": "34ef",
+      "studentId": "7432",
+      "snackId": "8",
+      "quantity": 2,
+      "totalSpent": 90
+    },
+    {
+      "id": "aef4",
+      "studentId": "7432",
+      "snackId": "9",
+      "quantity": 1,
+      "totalSpent": 10
     }
   ]
 }

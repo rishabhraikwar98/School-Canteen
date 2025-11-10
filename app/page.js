@@ -1,18 +1,19 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import { useStore } from "@/store/useStore";
 import OrderDialog from "@/components/OrderDialog";
 
 export default function SnacksPage() {
-  const { snacks, students, fetchSnacks, fetchStudents, selectSnack } = useStore();
+  const { snacks, students, fetchSnacks, fetchStudents } = useStore();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchSnacks();
+    fetchSnacks().finally(() => setLoading(false));
     fetchStudents();
   }, []);
 
-  if (!snacks.length) return <div className="p-4">Loading snacks...</div>;
-
+  if (!snacks.length && loading) return <div className="p-4 text-2xl text-center my-8">Loading snacks...</div>;
+  if (!snacks.length && !loading) return <div className="p-4 text-2xl text-center my-8">No snacks available.</div>;
   return (
     <div className="max-w-5xl mx-auto p-4 space-y-6">
       <h1 className="text-2xl font-semibold text-center sm:text-left">Snacks</h1>
@@ -28,7 +29,7 @@ export default function SnacksPage() {
               snacks={snacks}
               students={students}
               presetSnack={snack}
-              onOpen={() => selectSnack(snack)}
+              onSuccess={fetchSnacks}
             />
           </div>
         ))}

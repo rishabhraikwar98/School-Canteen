@@ -1,34 +1,36 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import { useStore } from "@/store/useStore";
 import OrderDialog from "@/components/OrderDialog";
 
 export default function StudentDetail({ params }) {
   const { id } = React.use(params);
+  const [loading, setLoading] = useState(true);
 
-  const { students, snacks, orders, fetchStudents, fetchSnacks, fetchOrders } =
+  const { snacks, orders, fetchSnacks, fetchOrders,fetchStudentById,selectedStudent } =
     useStore();
 
   useEffect(() => {
-    fetchStudents();
+    fetchStudentById(id).finally(() => {setLoading(false)});
     fetchSnacks();
     fetchOrders();
   }, []);
 
-  const student = students.find((s) => s.id === id);
   const studentOrders = orders.filter((o) => o.studentId === id);
 
   const getSnack = (snackId) =>
     snacks.find((s) => s.id === snackId)?.name || "Unknown";
 
-  if (!student) return <div className="p-4">Loading...</div>;
+  if (!selectedStudent&&loading) return <div className="p-4 text-2xl text-center my-8">Loading...</div>;
+  if (!selectedStudent&&!loading) return <div className="p-4 text-2xl text-center my-8">Student not found.</div>;
+
 
   return (
     <div className="max-w-4xl mx-auto p-4 space-y-6">
       <div className="border rounded p-4 space-y-2">
-        <h1 className="text-xl font-semibold">{student.name}</h1>
-        <p className="text-sm">Referral Code: {student.referralCode}</p>
-        <OrderDialog presetStudent={student} />
+        <h1 className="text-xl font-semibold">{selectedStudent.name}</h1>
+        <p className="text-sm">Referral Code: {selectedStudent.referralCode}</p>
+        <OrderDialog presetStudent={selectedStudent} onSuccess={()=>{fetchStudentById(id)}} />
       </div>
 
       <h2 className="text-lg font-medium">Order History</h2>
@@ -54,7 +56,7 @@ export default function StudentDetail({ params }) {
         </div>
         <div className="border rounded p-4 bg-gray-100 flex justify-between text-sm font-medium">
           <span>Total Orders: {studentOrders.length}</span>
-          <span>Total Spent: ₹{student.totalSpent}</span>
+          <span>Total Spent: ₹{selectedStudent.totalSpent}</span>
         </div>
       </div>
     </div>

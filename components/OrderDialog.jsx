@@ -1,40 +1,64 @@
 "use client";
-import {  useState } from "react";
+import { useState } from "react";
 import OrderForm from "./OrderForm";
-import {useStore} from "@/store/useStore";
+import { useStore } from "@/store/useStore";
 import { Button } from "./ui/button";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  DialogClose,
+} from "@/components/ui/dialog";
 
-export default function OrderDialog({ presetStudent, presetSnack }) {
+export default function OrderDialog({ presetStudent, presetSnack, onSuccess }) {
   const { students, snacks } = useStore();
   const [open, setOpen] = useState(false);
 
   return (
-    <>
-      <Button
-        onClick={() => setOpen(true)}
-        className="bg-black text-white px-4 py-2 rounded sm:w-auto"
-      >
-        Order
-      </Button>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button
+          className="sm:w-auto hover:bg-gray-800"
+        >
+          Order
+        </Button>
+      </DialogTrigger>
 
-      {open && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg p-4 w-full max-w-sm">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg font-semibold">{presetSnack?presetSnack.name:"Order Snack"}</h2>
-              <button onClick={() => setOpen(false)}>✕</button>
-            </div>
-
-            <OrderForm
-              students={students}
-              snacks={snacks}
-              presetStudent={presetStudent}
-              presetSnack={presetSnack}
-              onSuccess={() => setOpen(false)}
-            />
+      <DialogContent className="w-[95%] max-w-md p-4 sm:p-6 rounded-lg">
+        <DialogHeader>
+          <div className="flex items-start justify-between gap-4">
+            <DialogTitle className="text-lg font-semibold">
+              {presetSnack ? presetSnack.name : "Place Order"}
+            </DialogTitle>
           </div>
+        </DialogHeader>
+
+        <div className="mt-2">
+          <OrderForm
+            students={students}
+            snacks={snacks}
+            presetStudent={presetStudent}
+            presetSnack={presetSnack}
+            onSuccess={
+              () =>{
+                onSuccess()
+                setOpen(false)
+              }
+            }
+          />
         </div>
-      )}
-    </>
+
+        <DialogFooter className="mt-4">
+          <DialogClose asChild>
+            <Button variant="ghost" className="mr-2">
+              Cancel
+            </Button>
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }

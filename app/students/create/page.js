@@ -2,7 +2,9 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useStore } from "@/store/useStore";
-
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 export default function CreateStudent() {
   const { createStudent } = useStore();
   const {
@@ -40,12 +42,11 @@ export default function CreateStudent() {
         <form onSubmit={handleSubmit(submit)} className="mt-8 space-y-6">
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
-              <input
+              <Label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                Student Name
+              </Label>
+              <Input
                 {...register("name", { required: "Name is required" })}
-                className="appearance-none relative block w-full px-3 py-2 border 
-                           border-gray-300 placeholder-gray-500 text-gray-900 rounded-md 
-                           focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 
-                           focus:z-10 sm:text-sm"
                 placeholder="Student Name"
               />
               {errors.name && (
@@ -57,18 +58,13 @@ export default function CreateStudent() {
           </div>
 
           <div>
-            <button
+            <Button
               type="submit"
               disabled={isSubmitting}
-              className="group relative w-full flex justify-center py-2 px-4 border 
-                       border-transparent text-sm font-medium rounded-md text-white 
-                       bg-indigo-600 hover:bg-indigo-700 focus:outline-none 
-                       focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 
-                       disabled:bg-indigo-400 disabled:cursor-not-allowed
-                       transition-colors duration-200"
+              className="w-full flex justify-center py-2 px-4 hover:bg-gray-800"
             >
               {isSubmitting ? "Creating..." : "Create Student"}
-            </button>
+            </Button>
           </div>
 
           {message && (

@@ -7,12 +7,7 @@ export const useStore = create((set, get) => ({
   snacks: [],
   students: [],
   orders: [],
-  selectedSnack: null,
   selectedStudent: null,
-  selectSnack: (snack) => set({ selectedSnack: snack }),
-  selectStudent: (student) => set({ selectedStudent: student }),
-  resetSnack: () => set({ selectedSnack: null }),
-  resetStudent: () => set({ selectedStudent: null }),
 
   fetchSnacks: async () => {
     const { data } = await axios.get(`${API}/snacks`);
@@ -36,7 +31,12 @@ export const useStore = create((set, get) => ({
   await get().fetchStudents();
   return data;
 },
-
+fetchStudentById: async (id) => {
+    const { data } = await axios.get(`${API}/students`, {
+      params: { id }
+    });
+    set({ selectedStudent: data[0]});
+  },
   placeOrder: async ({ studentId, snackId, quantity, price }) => {
     await axios.post(`${API}/orders`, { studentId, snackId, quantity, totalSpent: price * quantity });
 

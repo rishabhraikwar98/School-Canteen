@@ -1,6 +1,7 @@
 "use client";
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import { useStore } from "@/store/useStore";
+import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 
@@ -22,17 +23,23 @@ export default function OrderForm({
 }) {
   const { placeOrder } = useStore();
 
-  const [studentId, setStudentId] = useState(
-    presetStudent ? String(presetStudent.id) : ""
-  );
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    defaultValues: {
+      studentId: presetStudent ? String(presetStudent.id) : "",
+      snackId: presetSnack ? String(presetSnack.id) : "",
+      quantity: 1,
+    },
+  });
 
-  const [snackId, setSnackId] = useState(
-    presetSnack ? String(presetSnack.id) : ""
-  );
-
-  const [quantity, setQuantity] = useState(1);
-  const [errors, setErrors] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const studentId = watch("studentId");
+  const snackId = watch("snackId");
+  const quantity = watch("quantity");
 
   const selectedSnack = useMemo(() => {
     if (presetSnack) return presetSnack;
@@ -41,44 +48,26 @@ export default function OrderForm({
 
   const total = selectedSnack ? selectedSnack.price * quantity : 0;
 
-  const validate = () => {
-    const temp = {};
+  const onSubmit = async (data) => {
+    await placeOrder({
+      studentId: presetStudent?.id || data.studentId,
+      snackId: presetSnack?.id || data.snackId,
+      quantity: Number(data.quantity),
+      price: selectedSnack.price,
+    });
 
-    if (!presetStudent && !studentId) temp.studentId = "Please select a student.";
-    if (!presetSnack && !snackId) temp.snackId = "Please select a snack.";
-    if (!quantity || quantity < 1 || quantity > 5)
-      temp.quantity = "Quantity must be between 1 and 5.";
-
-    setErrors(temp);
-    return Object.keys(temp).length === 0;
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!validate()) return;
-
-    setIsSubmitting(true);
-
-    try {
-      await placeOrder({
-        studentId: studentId || presetStudent.id,
-        snackId: snackId || presetSnack.id,
-        quantity,
-        price: selectedSnack.price,
-      });
-      onSuccess();
-    } catch {
-    } finally {
-      setIsSubmitting(false);
-    }
+    onSuccess();
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 w-full">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 w-full">
       {!presetStudent && (
         <div>
           <Label className="block mb-1 text-sm font-medium">Select Student</Label>
-          <Select value={studentId} onValueChange={setStudentId}>
+          <Select
+            value={studentId}
+            onValueChange={(v) => setValue("studentId", v)}
+          >
             <SelectTrigger className="w-full">
               <SelectValue placeholder="-- Select Student --" />
             </SelectTrigger>
@@ -91,7 +80,7 @@ export default function OrderForm({
             </SelectContent>
           </Select>
           {errors.studentId && (
-            <p className="text-red-500 text-sm mt-1">{errors.studentId}</p>
+            <p className="text-red-500 text-sm mt-1">{errors.studentId.message}</p>
           )}
         </div>
       )}
@@ -99,7 +88,10 @@ export default function OrderForm({
       {!presetSnack && (
         <div>
           <Label className="block mb-1 text-sm font-medium">Select Snack</Label>
-          <Select value={snackId} onValueChange={setSnackId}>
+          <Select
+            value={snackId}
+            onValueChange={(v) => setValue("snackId", v)}
+          >
             <SelectTrigger className="w-full">
               <SelectValue placeholder="-- Select Snack --" />
             </SelectTrigger>
@@ -112,7 +104,7 @@ export default function OrderForm({
             </SelectContent>
           </Select>
           {errors.snackId && (
-            <p className="text-red-500 text-sm mt-1">{errors.snackId}</p>
+            <p className="text-red-500 text-sm mt-1">{errors.snackId.message}</p>
           )}
         </div>
       )}
@@ -123,12 +115,15 @@ export default function OrderForm({
           type="number"
           min="1"
           max="5"
-          value={quantity}
-          onChange={(e) => setQuantity(Number(e.target.value))}
+          {...register("quantity", {
+            required: "Quantity is required.",
+            min: { value: 1, message: "Minimum quantity is 1." },
+            max: { value: 5, message: "Maximum quantity is 5." },
+          })}
           className="border rounded p-2 w-full"
         />
         {errors.quantity && (
-          <p className="text-red-500 text-sm mt-1">{errors.quantity}</p>
+          <p className="text-red-500 text-sm mt-1">{errors.quantity.message}</p>
         )}
       </div>
 
